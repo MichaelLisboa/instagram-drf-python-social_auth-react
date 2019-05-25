@@ -4,9 +4,8 @@ from rest_framework.routers import DefaultRouter
 from . import views
 
 router = DefaultRouter()
-router.register(r'products', views.MembershipsViewSet)
-router.register(r'users', views.UserMembershipsViewSet)
-router.register(r'subscriptions', views.SubscriptionsViewSet)
+router.register(r'profiles', views.ProfileViewSet)
+router.register(r'celebs', views.CelebViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

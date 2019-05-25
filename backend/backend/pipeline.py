@@ -1,5 +1,9 @@
-from accounts.models import CelebModel
+from accounts.models import CelebModel, Profile
 from django.utils.text import slugify
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
 
 
 def fuck_instagram(backend, strategy, details, response,
@@ -13,6 +17,8 @@ def fuck_instagram(backend, strategy, details, response,
 
 def create_user(strategy, details, backend, user=None, *args, **kwargs):
 
+    print("SOME SHIT", kwargs['response']['data'])
+
     USER_FIELDS = ['username', 'email']
 
     if user:
@@ -23,13 +29,12 @@ def create_user(strategy, details, backend, user=None, *args, **kwargs):
     if not fields:
         return
 
-    _user = kwargs['response']['user']
+    _user = kwargs['response']['data']
 
     fields.update({
         "username": _user['username'],
         "first_name": details['first_name'],
         "last_name": details['last_name'],
-        "bio": _user['bio'] if 'bio' in _user else '',
         "email": details['email']
     })
 
@@ -40,8 +45,8 @@ def create_user(strategy, details, backend, user=None, *args, **kwargs):
         profile.fb_id = kwargs['uid']
         profile.slug = slugify(_user['username'])
         profile.profile_pic = _user['profile_picture']
+        profile.bio = kwargs['bio'] if 'bio' in kwargs else '',
         profile.save()
-        print("USER PROFILE UPDATED", profile)
     except Exception as e:
         import traceback
         errorLine = str(traceback.format_exc())
@@ -58,16 +63,12 @@ def create_user(strategy, details, backend, user=None, *args, **kwargs):
 
 def link_profile(backend, strategy, details, response,
                  user, is_new, *args, **kwargs):
-    print("PIPELINE IN SETTINGS", user, is_new)
     if backend.name == 'instagram':
         user_data = response.get('data')
-        print("IG USER DATA", user_data)
         if is_new:
             user.username = user_data['username']
             user.save()
         profile = user.profile
-
-        print("INFLUENCER PROFILE", profile)
 
         influencer_data = {
             "profile": profile,
@@ -78,8 +79,6 @@ def link_profile(backend, strategy, details, response,
             "followers": user_data['counts']['followed_by'],
             "profile_pic": user_data['profile_picture']
         }
-
-        print("INFLUENCER DATA TO CREATE CELEB", influencer_data)
 
         influencer, created = (
             CelebModel
