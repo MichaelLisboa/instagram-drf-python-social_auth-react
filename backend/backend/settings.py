@@ -3,7 +3,7 @@ import os
 from social_core.backends import instagram
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -16,6 +16,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # apps
+    'accounts',
     'memberships',
 
     # 3rd party
@@ -91,8 +92,8 @@ instagram.InstagramOAuth2.REDIRECT_STATE = False
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
 SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
-SOCIAL_AUTH_INSTAGRAM_KEY = os.environ['IG_ID']
-SOCIAL_AUTH_INSTAGRAM_SECRET = os.environ['IG_SECRET']
+SOCIAL_AUTH_INSTAGRAM_KEY = os.environ.get('IG_ID')
+SOCIAL_AUTH_INSTAGRAM_SECRET = os.environ.get('IG_SECRET')
 
 SOCIAL_AUTH_STRATEGY = 'social_django.strategy.DjangoStrategy'
 SOCIAL_AUTH_STORAGE = 'social_django.models.DjangoStorage'
@@ -104,9 +105,9 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_uid',
     'social_core.pipeline.social_auth.social_user',
     'social_core.pipeline.social_auth.auth_allowed',
-    'influense.pipeline.create_user',
-    'influense.pipeline.link_profile',
-    'influense.pipeline.fuck_instagram',
+    'backend.pipeline.create_user',
+    'backend.pipeline.link_profile',
+    'backend.pipeline.fuck_instagram',
     'social_core.pipeline.social_auth.associate_user',
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
@@ -157,7 +158,7 @@ DATABASES = {
 
 if os.getenv('GAE_INSTANCE'):
     SECRET_KEY = os.environ.get('SECRET_KEY')
-    DATABASES['default']['HOST'] = os.environ('DB_HOST')
+    DATABASES['default']['HOST'] = os.environ.get('DB_HOST')
     DATABASES['default']['NAME'] = os.environ.get('DB_NAME')
     DATABASES['default']['USER'] = os.environ.get('DB_USER')
     DATABASES['default']['PASSWORD'] = os.environ.get('DB_PASS')
