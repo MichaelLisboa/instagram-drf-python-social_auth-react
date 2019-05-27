@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from "axios";
+import {ROOT_URL} from "../constants/Urls";
 import InstagramLogin from 'react-instagram-login';
 
 
@@ -11,25 +12,18 @@ class Auth extends Component {
     }
 
     componentDidMount () {
-        console.log("PLACEHOLDER", this.props)
+        console.log("COMPONENT DID MOUNT", this.props)
     }
 
     render() {
 
         const responseInstagram = (token) => {
-            this.props.history.push("/profile/");
-            const body = {
-                grant_type: "convert_token",
-                client_id: "",
-                client_secret: "",
-                backend: "instagram",
-                token: token
-            }
 
-            axios.post("/auth/convert-token", body)
+            axios.post(`${ROOT_URL}/accounts/convert-token/`, {token: token})
                 .then((response) => {
                     localStorage.setItem("access_token", response.data.access_token);
                     localStorage.setItem("refresh_token", response.data.refresh_token);
+                    this.props.history.push("/profile/");
                 }).catch(error => {
                     console.log("ERROR", error)
                 });
