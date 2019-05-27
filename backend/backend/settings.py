@@ -21,10 +21,9 @@ INSTALLED_APPS = [
 
     # 3rd party
     'rest_framework',
-    'rest_framework.authtoken',
-    'rest_auth',
     'social_django',
     'oauth2_provider',
+    'rest_framework_social_oauth2',
     'corsheaders',
 ]
 
@@ -35,6 +34,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'oauth2_provider.middleware.OAuth2TokenMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -86,7 +86,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_ALLOW_ALL = True
 
 instagram.InstagramOAuth2.REDIRECT_STATE = False
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
@@ -107,10 +107,10 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.auth_allowed',
     'backend.pipeline.create_user',
     'backend.pipeline.link_profile',
-    'backend.pipeline.fuck_instagram',
     'social_core.pipeline.social_auth.associate_user',
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
+    # 'backend.pipeline.create_subscription',
 )
 
 SOCIAL_AUTH_DISCONNECT_PIPELINE = (
@@ -142,11 +142,12 @@ REST_FRAMEWORK = {
     }
 }
 
-AUTHENTICATION_BACKENDS = [
+AUTHENTICATION_BACKENDS = (
+    'oauth2_provider.backends.OAuth2Backend',
     'social_core.backends.instagram.InstagramOAuth2',
     'rest_framework_social_oauth2.backends.DjangoOAuth2',
-    'django.contrib.auth.backends.ModelBackend',
-]
+    'django.contrib.auth.backends.ModelBackend'
+)
 
 DATABASES = {
     'default': {
@@ -155,6 +156,8 @@ DATABASES = {
         'CONN_MAX_AGE': 60 * 10,
     }
 }
+
+HOST_URL = 'https://influense-rs-dot-pixt-app-1.appspot.com/'
 
 if os.getenv('GAE_INSTANCE'):
     SECRET_KEY = os.environ.get('SECRET_KEY')
@@ -172,6 +175,8 @@ else:
     SECRET_KEY = data['secret_key']
 
     DEBUG = True
+    HOST_URL = 'http://127.0.0.1:8000/'
+
     DATABASES['default']['HOST'] = '127.0.0.1'
     DATABASES['default']['NAME'] = data['db_name']
     DATABASES['default']['USER'] = data['db_user']

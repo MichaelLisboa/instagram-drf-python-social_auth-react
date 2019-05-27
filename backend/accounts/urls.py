@@ -1,4 +1,4 @@
-from django.urls import include, path, re_path
+from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from . import views
@@ -9,5 +9,6 @@ router.register(r'celebs', views.CelebViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    re_path(r'^register-by-token/(?P<backend>[^/]+)/$', views.register_by_access_token)
+    path('convert-token/', views.ConvertToken.as_view(), name='convert_token'),
+    path('user/', views.GetUserProfile.as_view()),
 ]
