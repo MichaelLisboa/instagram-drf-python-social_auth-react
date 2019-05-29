@@ -44,7 +44,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR, os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -149,6 +149,9 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend'
 )
 
+STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE')
+STRIPE_SECRET = os.environ.get('STRIPE_SECRET')
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -165,6 +168,14 @@ if os.getenv('GAE_INSTANCE'):
     DATABASES['default']['NAME'] = os.environ.get('DB_NAME')
     DATABASES['default']['USER'] = os.environ.get('DB_USER')
     DATABASES['default']['PASSWORD'] = os.environ.get('DB_PASS')
+
+    EMAIL_HOST = os.environ['email_host']
+    EMAIL_HOST_USER = os.environ['email_user']
+    DEFAULT_FROM_EMAIL = os.environ['email_user']
+    SERVER_EMAIL = os.environ['email_user']
+    EMAIL_HOST_PASSWORD = os.environ['email_pass']
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
 
     STATIC_URL = os.environ.get('BUCKET')
     STATIC_ROOT = 'static/'
@@ -187,5 +198,7 @@ else:
     DEFAULT_FROM_EMAIL = data['email_user']
     SERVER_EMAIL = data['email_user']
     EMAIL_HOST_PASSWORD = data['email_pass']
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
 
     CORS_ORIGIN_ALLOW_ALL = True

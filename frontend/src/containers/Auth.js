@@ -12,21 +12,21 @@ class Auth extends Component {
     }
 
     componentDidMount () {
-        console.log("COMPONENT DID MOUNT", this.props)
+        console.log("PLACEHOLDER", this.props)
     }
 
     render() {
 
         const responseInstagram = (token) => {
-
             axios.post(`${ROOT_URL}/accounts/convert-token/`, {token: token})
-                .then((response) => {
-                    localStorage.setItem("access_token", response.data.access_token);
-                    localStorage.setItem("refresh_token", response.data.refresh_token);
-                    this.props.history.push("/profile/");
-                }).catch(error => {
-                    console.log("ERROR", error)
-                });
+            .then((response) => {
+                console.log("USER ID", response)
+                localStorage.setItem("access_token", response.data.access_token);
+                localStorage.setItem("refresh_token", response.data.refresh_token);
+                this.props.history.push("/profile/");
+            }).catch(error => {
+                console.log("ERROR", error)
+            });
         }
 
         return (

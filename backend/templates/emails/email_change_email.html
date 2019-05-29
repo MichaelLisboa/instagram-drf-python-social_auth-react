@@ -1,0 +1,14 @@
+{% autoescape off %}
+<div style="background: #ffffff; width: 80%; max-width: 590px; padding: 20px 30px; margin: 5% auto; border: 1px solid #ebebeb; border-radius: 5px;">
+	<div style="position: relative; width: 100%; text-align: center;">
+		<img src="https://storage.googleapis.com/pixt-bucket/static/influense/images/influense-logo-300-white.png" width="300px" alt="influen$e logo" style="margin-bottom: 10px;" />
+	</div>
+	<p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 14px; color: #666666;">Hello @{{ user.username }},</p>
+	<p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 14px; color: #666666;">You updated your email address to <strong>{{ user.email }}</strong> on {% now "jS, F Y" %} at {% now "H:i" %}.</p>
+	<p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 14px; color: #666666;">Confirm your email address by clicking the link below:</p>
+	<h4 style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; font-weight: bold; color: #e33e5c; text-align: center; margin-bottom: 0px;">http://{{ domain }}/verify/{{uid}}/{{token}}</h4>
+	<p style="font-family: Arial, Helvetica, sans-serif; font-size: 10px; line-height: 12px; color: #999999; text-align: center;">(If clicking the link above doesn't work, please copy and paste the URL in a new browser window instead.)</p>
+	<p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 14px; color: #666666; margin: 40px 0 0;">Sincerely,</p>
+	<p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 14px; color: #666666; margin: 10px 0px;">Your friends at influen$e</p>
+</div>
+{% endautoescape %}

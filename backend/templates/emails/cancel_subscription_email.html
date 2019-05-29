@@ -1,0 +1,12 @@
+{% autoescape off %}
+<div style="background: #ffffff; width: 80%; max-width: 590px; padding: 20px 30px; margin: 5% auto; border: 1px solid #ebebeb; border-radius: 5px;">
+	<div style="position: relative; width: 100%; text-align: center;">
+		<img src="https://storage.googleapis.com/pixt-bucket/static/influense/images/influense-logo-300-white.png" width="300px" alt="influen$e logo" style="margin-bottom: 10px;" />
+	</div>
+	<p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 14px; color: #666666;">Hello {{ user.first_name }},</p>
+	<p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 14px; color: #666666;">Thank you for trying influen$e</p>
+	<p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 14px; color: #666666;">We have canceled your subscription. You may continue using influen$e until the end of your current billing cycle on {{ vars.next_billing_date }}</p>
+	<p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 14px; color: #666666; margin: 40px 0 0;">Sincerely,</p>
+	<p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 14px; color: #666666; margin: 10px 0px;">Your friends at influen$e</p>
+</div>
+{% endautoescape %}

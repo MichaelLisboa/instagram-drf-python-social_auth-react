@@ -10,4 +10,5 @@ router.register(r'subscriptions', views.SubscriptionsViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('subscription/<int:pk>/', views.SocialSubscription.as_view()),
 ]
