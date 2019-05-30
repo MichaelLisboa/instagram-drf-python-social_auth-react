@@ -29,7 +29,8 @@ class UserSerializer(serializers.ModelSerializer):
 class ProfilesSerializer(serializers.ModelSerializer):
 
     # user = UserSerializer(many=False, read_only=True)
-
+    username = serializers.CharField(
+            source="user.username", allow_blank=True, required=False)
     first_name = serializers.CharField(
             source="user.first_name", allow_blank=True, required=False)
     last_name = serializers.CharField(
@@ -43,7 +44,7 @@ class ProfilesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ('user_id', 'first_name', 'last_name', 'email',
+        fields = ('user_id', 'username', 'first_name', 'last_name', 'email',
                   'profile_pic', 'slug', 'email_confirmed',
                   'date_joined', 'last_login',)
 

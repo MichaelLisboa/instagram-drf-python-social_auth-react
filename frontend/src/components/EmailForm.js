@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import axios from "axios";
 import {ROOT_URL} from "../constants/Urls";
 
@@ -96,36 +96,34 @@ class EmailForm extends Component {
 
     render () {
         return (
-            <Fragment>
-            { this.state.emailConfirmed ? <h1>MONKEY</h1> :
-            <form
-                id="contactForm"
-                className="uk-form"
-                onSubmit={this.handleSubmit}>
-                <fieldset className="uk-fieldset">
-                    <div className="uk-margin-small-top">
-                        <label htmlFor="newEmail" className="uk-text-muted">
-                            Email address
-                            <input
-                                name="newEmail"
-                                type="text"
-                                value={this.state.newEmail}
-                                className={`uk-input uk-form-large ${this.errorClass(this.state.formErrors.newEmail)}`}
-                                maxLength="100"
-                                required
-                                onChange={this.handleInputChange}
-                                onBlur={this.handleUserInput}
-                                onFocus={this.handleInputFocus}
-                            />
-                        </label>
-                    </div>
-                    <div className="uk-margin-large-bottom uk-margin-medium-top uk-text-right">
-                        <button type="submit" className="uk-button uk-button-secondary uk-width-1-2 uk-width-1-3@s" disabled={!this.state.formValid}>Send</button>
-                    </div>
-                </fieldset>
-            </form>
-        }
-        </Fragment>
+            <div className="uk-card-body">
+                <form
+                    id="contactForm"
+                    className="uk-form"
+                    onSubmit={this.handleSubmit}>
+                    <fieldset className="uk-fieldset">
+                        <div className="uk-margin-small-top">
+                            <label htmlFor="newEmail" className="uk-text-muted">
+                                <input
+                                    name="newEmail"
+                                    type="text"
+                                    value={this.state.newEmail}
+                                    className={`uk-input uk-form-large ${this.errorClass(this.state.formErrors.newEmail)}`}
+                                    maxLength="255"
+                                    placeholder="Email address"
+                                    required
+                                    onChange={this.handleInputChange}
+                                    onBlur={this.handleUserInput}
+                                    onFocus={this.handleInputFocus}
+                                />
+                            </label>
+                        </div>
+                        <div className="uk-margin-large-bottom uk-margin-medium-top uk-text-center">
+                            <button type="submit" className="uk-button uk-button-secondary" disabled={!this.state.formValid}>Send</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
         )
     }
 }

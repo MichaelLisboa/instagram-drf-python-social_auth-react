@@ -71,8 +71,6 @@ class GetUserProfile(ProtectedResourceView, generics.RetrieveAPIView):
 
         if request.user.is_authenticated:
             serializer = ProfilesSerializer(request.user.profile)
-            login(request, request.user,
-                  backend='django.contrib.auth.backends.ModelBackend')
         else:
             serializer = {
                 "status": "failed",
@@ -164,13 +162,13 @@ class ActivateEmail(APIView):
                 and account_activation_token.check_token(user, token)):
             # user.is_active = True
             # user.save()
-            # user.profile.email_confirmed = True
-            # user.profile.save()
-            # login(
-            #     request,
-            #     user,
-            #     backend='django.contrib.auth.backends.ModelBackend'
-            # )
+            user.profile.email_confirmed = True
+            user.profile.save()
+            login(
+                request,
+                user,
+                backend='django.contrib.auth.backends.ModelBackend'
+            )
             profile = ProfilesSerializer(user.profile)
             data = {
                     "status": "success",
